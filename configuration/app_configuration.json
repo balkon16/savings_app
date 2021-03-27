@@ -2,6 +2,12 @@
   "mongodb": {
     "host": "localhost",
     "port": 27017,
-    "db_name": "savings"
+    "db_info": {
+      "name": "savings",
+      "collections": {
+        "assets_collection": "assets",
+        "exchange_rates_collection": "exchangeRates"
+      }
+    }
   }
 }

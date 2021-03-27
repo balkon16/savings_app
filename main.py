@@ -1,10 +1,11 @@
 from flask import Flask
-from flask_restful import Resource, Api
 
 from mongo.mongodb_connector import MongoConnector
+
+# mongo_connector = MongoConnector()
+
 # TODO: testy metod API -> jak je przeprowadzić?
 # TODO: skrypt robiący backup danych MongoDB
-# TODO: przygotować schematy danych pod kątem walidacji przy insert do MongoDB (https://docs.mongodb.com/manual/core/schema-validation/)
 # TODO: logging (jak w pracy)
 # TODO: plik konfiguracyjny, w którym będą wszystkie ścieżki
 
@@ -14,11 +15,31 @@ from mongo.mongodb_connector import MongoConnector
 app = Flask(__name__)
 api = Api(app)
 
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
 
-api.add_resource(HelloWorld, '/')
+# TODO: zwykły falsk
+# TODO: endpoint dla nowych kursów -> PUT
+# TODO: endpoint dla nowych aktywów -> PUT
+# TODO: endpoint do pobierania najnowszego kursu -> GET
+# TODO: endpoint do pobrania kursów historycznych -> GET
+# TODO: endpoint do pobrania aktywów: ticker, tag(s), currency -> GET
+
+# class Asset(Resource):
+#     pass
+
+#
+# class ExchangeRate(Resource):
+#     def get(self, base_currency, quote_currency):
+#         def _check_string(string):
+#             if not string.isupper() or len(string) != 3:
+#                 return False
+#             return True
+#         if _check_string(base_currency) and _check_string(quote_currency):
+#             return 200, {"value": 3.40}
+#         else:
+#             return 400, 'Currency code must be a 3-element string written in upper case.'
+
+
+# api.add_resource(ExchangeRate, '/')
 
 if __name__ == '__main__':
     app.run(debug=True)
