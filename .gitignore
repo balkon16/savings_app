@@ -1,2 +1,4 @@
 .idea
 savings_venv/
+brudnopis*
+mongo/__pycache__/

@@ -1,0 +1,32 @@
+{
+  "bsonType": "object",
+  "required": [
+    "base_currency",
+    "quote_currency",
+    "multiplier",
+    "source",
+    "timestamp"
+  ],
+  "properties": {
+    "base_currency": {
+      "bsonType": "string",
+      "description": "must be a 3-element string written in upper case and is required",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "quote_currency": {
+      "bsonType": "string",
+      "description": "must be a 3-element string written in upper case and is required",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "multiplier": {
+      "bsonType": "decimal",
+      "description": "must be Decimal128 and is required"
+    },
+    "source": {
+      "bsonType": "string"
+    },
+    "timestamp": {
+      "bsonType": "date"
+    }
+  }
+}
