@@ -1,5 +1,6 @@
 import json
 from collections import OrderedDict
+from bson.json_util import dumps
 from pymongo import MongoClient
 
 with open('./configuration/app_configuration.json', 'r') as f:
@@ -75,8 +76,33 @@ class MongoConnector:
             msg_txt = 'Error while inserting an item: {}'.format(exp)
         return Message(status, msg_txt)
 
+    def delete(self, collection, condition):
+        if not isinstance(condition, dict):
+            status = False
+            msg_text = 'Condition must be a dictionary.'
+        else:
+            try:
+                result = self.db[collection].delete_many(condition)
+                status = True
+                # TODO: tutaj dać logging.warning
+                msg_text = 'Deleted {} documents from collection {}.'.format(collection, result.deleted_count)
+            except BaseException as err:
+                status = False
+                msg_text = "Error while deleting item(s): {}".format(err)
+        return Message(status, msg_text)
 
-
-    # TODO: wyszukiwanie elementów -> find; metoda ma zwracać {"success": T/F, "data": ...}
-    # TODO: wstawianie elementów (insert, update, upsert); metoda ma informować czy udał się zapis
-    # TODO: usuwanie elementów; metoda ma informować czy ok
+    def get(self, collection, condition):
+        if not isinstance(condition, dict):
+            status = False
+            msg_text = 'Condition must be a dictionary.'
+        else:
+            try:
+                result = []
+                for doc in self.db[collection].find(condition):
+                    result.append(doc)
+                status = True
+                msg_text = dumps(result)
+            except BaseException as err:
+                status = False
+                msg_text = "Error while querying items: {}".format(err)
+        return Message(status, msg_text)

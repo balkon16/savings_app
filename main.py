@@ -8,6 +8,9 @@ from mongo.mongodb_connector import MongoConnector
 # TODO: logging (jak w pracy)
 # TODO: plik konfiguracyjny, w którym będą wszystkie ścieżki
 
+# TODO: mapowanie typów mongo na Pythonowe, żeby poradzić sobie z problemami tego typu : "multiplier": {"$numberDecimal": "4.51"}, "source": "NBP", "timestamp": {"$date": 1602586433000}}
+#  > sprawdzić tap-mongodb
+
 app = Flask(__name__)
 api = Api(app)
 
