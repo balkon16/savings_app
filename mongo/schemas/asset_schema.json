@@ -1,0 +1,44 @@
+{
+  "bsonType": "object",
+  "required": [
+    "name",
+    "entity",
+    "tags",
+    "ticker",
+    "currency",
+    "value",
+    "timestamp"
+  ],
+  "properties": {
+    "name": {
+      "bsonType": "string"
+    },
+    "entity": {
+      "bsonType": "string"
+    },
+    "tags": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "string"
+      }
+    },
+    "ticker": {
+      "bsonType": "string"
+    },
+    "currency": {
+      "bsonType": "string",
+      "description": "must be a 3-element string written in upper case and is required",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "value": {
+      "bsonType": "decimal",
+      "description": "must be Decimal128 and is required"
+    },
+    "timestamp": {
+      "bsonType": "date"
+    },
+    "updated_at": {
+      "bsonType": "date"
+    }
+  }
+}
