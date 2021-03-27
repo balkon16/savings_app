@@ -1,7 +1,5 @@
 import json
 from collections import OrderedDict
-
-import pymongo
 from pymongo import MongoClient
 
 with open('./configuration/app_configuration.json', 'r') as f:
@@ -32,7 +30,7 @@ class MongoConnector:
 
     def drop_collection(self, collection_name):
         self.db.drop_collection(collection_name)
-        return Message(True, 'ok')
+        return Message(True, 'Collection {} dropped'.format(collection_name))
 
     def create_collection(self, collection_name, **options):
         if collection_name in self.db.list_collection_names():
@@ -61,6 +59,23 @@ class MongoConnector:
                 msg_text += ' Error while executing command: {}'.format(exp)
                 status = False
         return Message(status, msg_text)
+
+    def insert(self, collection, payload):
+        insert_methods = {dict: 'insert_one', list: 'insert_many'}
+        if type(payload) not in insert_methods:
+            return Message(False, 'Object of type {} cannot be inserted.'.format(type(payload)))
+        method_str = insert_methods.get(type(payload), '')
+        obj_method = getattr(self.db[collection], method_str, None)
+        try:
+            obj_method(payload)
+            status = True
+            msg_txt = "Insert successful."
+        except BaseException as exp:
+            status = False
+            msg_txt = 'Error while inserting an item: {}'.format(exp)
+        return Message(status, msg_txt)
+
+
 
     # TODO: wyszukiwanie elementów -> find; metoda ma zwracać {"success": T/F, "data": ...}
     # TODO: wstawianie elementów (insert, update, upsert); metoda ma informować czy udał się zapis
