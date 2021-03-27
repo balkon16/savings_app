@@ -3,6 +3,7 @@ from collections import OrderedDict
 from bson.json_util import dumps
 from pymongo import MongoClient
 
+
 # TODO: currency_pairs_schema.json -> walidacja (`source` nie może być pusty) + odpowiedni opis w description
 class Message:
 
@@ -20,7 +21,7 @@ class Message:
 
 
 class MongoConnector:
-    #TODO: operacja update na kolekcji
+    # TODO: operacja update na kolekcji
     def __init__(self, host, port, database):
         client = MongoClient(host, port)
         self.db = client[database]
