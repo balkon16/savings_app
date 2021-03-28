@@ -1,13 +1,21 @@
 import datetime
 import json
+import os
 
 from flask import Flask, request
+from werkzeug.utils import secure_filename
 
 from mongo.mongodb_connector import MongoConnector
 
-with open('./configuration/app_configuration.json', 'r') as f:
-    mongo_conf = json.load(f)['mongodb']
+# TODO: do konfiguracji
+UPLOAD_FOLDER = './uploaded_files'
 
+with open('./configuration/app_configuration.json', 'r') as f:
+    conf = json.load(f)
+    mongo_conf = conf['mongodb']
+    file_upload_conf = conf['file_upload']
+
+ALLOWED_EXTENSIONS = file_upload_conf['allowed_extensions']
 ASSETS_COLLECTION_NAME = mongo_conf['db_info']['collections']['assets_collection']
 EXCHANGE_RATES_COLLECTION_NAME = mongo_conf['db_info']['collections']['exchange_rates_collection']
 
@@ -24,12 +32,12 @@ mongo_connector = MongoConnector(mongo_conf['host'],
 #  > sprawdzić tap-mongodb
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-# TODO: endpoint dla nowych aktywów -> PUT
 # TODO: endpoint do pobrania kursów historycznych -> GET
-# TODO: endpoint do pobrania aktywów: ticker, tag(s), currency -> GET
 
+# TODO: wzorzec pliki do załadowania (xlsx, xls)
 
 @app.route('/currencies', methods=['GET'])
 def get_exchange_rate():
@@ -107,6 +115,29 @@ def handle_assets():
             return res_msg.message, 400
     else:
         return 501, 'Method {} is not implemented'.format(request.method)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            return 'No file part', 400
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            return 'No selected file', 400
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return 'File saved', 200
+    return "Incorrect file type", 400
 
 
 if __name__ == '__main__':

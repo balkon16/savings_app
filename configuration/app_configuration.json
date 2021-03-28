@@ -9,5 +9,11 @@
         "exchange_rates_collection": "exchangeRates"
       }
     }
+  },
+  "file_upload": {
+    "allowed_extensions": [
+      "xlsx",
+      "xls"
+    ]
   }
 }
