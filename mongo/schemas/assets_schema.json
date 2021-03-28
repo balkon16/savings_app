@@ -39,6 +39,9 @@
     },
     "updated_at": {
       "bsonType": "date"
+    },
+    "description": {
+      "bsonType": "string"
     }
   }
 }
