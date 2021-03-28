@@ -1,7 +1,0 @@
-{
-  "base_currency": "EUR",
-  "quote_currency": "PLN",
-  "multiplier": 100.1,
-  "source": "NBP",
-  "timestamp": "2020-01-01T12:00:01"
-}
