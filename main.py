@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from flask import Flask, request
@@ -30,10 +31,6 @@ app = Flask(__name__)
 # TODO: endpoint do pobrania kursów historycznych -> GET
 # TODO: endpoint do pobrania aktywów: ticker, tag(s), currency -> GET
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
 
 @app.route('/currencies', methods=['GET'])
 def get_exchange_rate():
@@ -65,6 +62,26 @@ def get_exchange_rate():
             return result_msg.message, 400
     else:
         return 'Currency code must be a 3-element string written in upper case.', 400
+
+
+@app.route('/currencies', methods=['PUT'])
+def add_currency_pair():
+    # TODO: dokumentacja -> wymagany `Content-Type: application/json` w requeście
+    # TODO: dokumentacja -> wymagany odpowiedni format daty datetime.datetime.now()
+    data_json = request.json
+    insert_data = dict()
+    for key, value in data_json.items():
+        if type(value) is float:
+            insert_data[key] = MongoConnector.change_type(value, float)
+        else:
+            insert_data[key] = value
+    insert_data['timestamp'] = datetime.datetime.now()
+    res_msg = mongo_connector.insert(EXCHANGE_RATES_COLLECTION_NAME, insert_data)
+    if res_msg.status:
+        return res_msg.message, 200
+    else:
+        return res_msg.message, 400
+
 
 if __name__ == '__main__':
     app.run(debug=True)
