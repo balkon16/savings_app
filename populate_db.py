@@ -20,17 +20,20 @@ all_items = {
     "exchange_rates": [
         {"base_currency": "EUR",
          "quote_currency": "PLN",
-         "multiplier": Decimal128("4.51"),
+         "multiplier": Decimal128("1.0"),
+         "value": Decimal128("4.51"),
          "source": "NBP",
          "timestamp": dts_now},
         {"base_currency": "EUR",
          "quote_currency": "PLN",
-         "multiplier": Decimal128("4.30"),
+         "multiplier": Decimal128("1.0"),
+         "value": Decimal128("4.30"),
          "source": "NBP",
          "timestamp": dts_past},
         {"base_currency": "USD",
          "quote_currency": "PLN",
-         "multiplier": Decimal128("3.78"),
+         "multiplier": Decimal128("1.0"),
+         "value": Decimal128("3.78"),
          "source": "NBP",
          "timestamp": dts_past}
     ]

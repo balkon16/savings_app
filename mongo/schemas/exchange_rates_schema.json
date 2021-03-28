@@ -3,6 +3,7 @@
   "required": [
     "base_currency",
     "quote_currency",
+    "value",
     "multiplier",
     "source",
     "timestamp"
@@ -17,6 +18,10 @@
       "bsonType": "string",
       "description": "must be a 3-element string written in upper case and is required",
       "pattern": "^[A-Z]{3}$"
+    },
+    "value": {
+      "bsonType": "decimal",
+      "description": "must be Decimal128 and is required"
     },
     "multiplier": {
       "bsonType": "decimal",
