@@ -26,7 +26,6 @@ mongo_connector = MongoConnector(mongo_conf['host'],
 app = Flask(__name__)
 
 
-# TODO: endpoint dla nowych kursów -> PUT
 # TODO: endpoint dla nowych aktywów -> PUT
 # TODO: endpoint do pobrania kursów historycznych -> GET
 # TODO: endpoint do pobrania aktywów: ticker, tag(s), currency -> GET
@@ -70,6 +69,7 @@ def add_currency_pair():
     # TODO: dokumentacja -> wymagany odpowiedni format daty datetime.datetime.now()
     data_json = request.json
     insert_data = dict()
+    # TODO: przygotować metodę w MongoConnector, która odpowiednio przygotuje dane
     for key, value in data_json.items():
         if type(value) is float:
             insert_data[key] = MongoConnector.change_type(value, float)
@@ -81,6 +81,32 @@ def add_currency_pair():
         return res_msg.message, 200
     else:
         return res_msg.message, 400
+
+
+@app.route('/assets', methods=['GET', 'PUT'])
+def handle_assets():
+    if request.method == 'GET':
+        res_msg = mongo_connector.get(ASSETS_COLLECTION_NAME, {})
+        # TODO: konwersja Decimal128 na float -> klasa Converter
+        if res_msg.status:
+            return res_msg.message, 200
+        return res_msg, 400
+    elif request.method == 'PUT':
+        data_json = request.json
+        insert_data = dict()
+        for key, value in data_json.items():
+            if type(value) is float:
+                insert_data[key] = MongoConnector.change_type(value, float)
+            else:
+                insert_data[key] = value
+        insert_data['timestamp'] = datetime.datetime.now()
+        res_msg = mongo_connector.insert(ASSETS_COLLECTION_NAME, insert_data)
+        if res_msg.status:
+            return res_msg.message, 200
+        else:
+            return res_msg.message, 400
+    else:
+        return 501, 'Method {} is not implemented'.format(request.method)
 
 
 if __name__ == '__main__':

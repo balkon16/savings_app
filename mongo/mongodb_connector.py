@@ -89,7 +89,7 @@ class MongoConnector:
                 msg_text = "Error while deleting item(s): {}".format(err)
         return Message(status, msg_text)
 
-    def get(self, collection, condition, query_limit):
+    def get(self, collection, condition, query_limit=None):
         if not isinstance(condition, dict):
             status = False
             msg_text = 'Condition must be a dictionary.'
