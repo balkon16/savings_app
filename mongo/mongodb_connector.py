@@ -36,7 +36,6 @@ class MongoConnector:
             # TODO: użyć logging/logger
             return Message(False, 'Collection {} already exists.'.format(collection_name))
 
-        # TODO: uwspólnić obsługę wyjątków
         try:
             _ = self.db.create_collection(collection_name)
             msg_text = 'Collection {} created.'.format(collection_name)
