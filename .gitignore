@@ -2,3 +2,4 @@
 savings_venv/
 brudnopis*
 mongo/__pycache__/
+*.xlsx
