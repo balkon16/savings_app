@@ -35,6 +35,12 @@ all_items = {
          "multiplier": Decimal128("1.0"),
          "value": Decimal128("3.78"),
          "source": "NBP",
+         "timestamp": dts_past},
+        {"base_currency": "CHF",
+         "quote_currency": "PLN",
+         "multiplier": Decimal128("1.0"),
+         "value": Decimal128("4.15"),
+         "source": "",
          "timestamp": dts_past}
     ]
 }

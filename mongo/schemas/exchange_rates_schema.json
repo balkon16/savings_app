@@ -28,7 +28,9 @@
       "description": "must be Decimal128 and is required"
     },
     "source": {
-      "bsonType": "string"
+      "bsonType": "string",
+      "minLength": 1,
+      "description": "must be a non-empty string"
     },
     "timestamp": {
       "bsonType": "date"
