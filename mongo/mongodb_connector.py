@@ -111,15 +111,3 @@ class MongoConnector:
     @classmethod
     def parse_content(cls, content):
         return loads(content)
-
-    @classmethod
-    def change_type(cls, value, value_type):
-        # TODO: mapowanie do konfiguracji
-        mapping = {float: {'map_to': Decimal128, "string_first": True}}
-
-        mapped_instr = mapping.get(value_type)
-        if not mapped_instr:
-            raise NotImplemented('No mapping for {}'.format(value_type))
-        if mapped_instr['string_first']:
-            value = str(value)
-        return mapped_instr['map_to'](value)

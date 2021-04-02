@@ -3,6 +3,7 @@ import json
 
 from flask import Flask, request
 
+from converter.converter import Converter
 from mongo.mongodb_connector import MongoConnector
 
 with open('./configuration/app_configuration.json', 'r') as f:
@@ -72,7 +73,7 @@ def add_currency_pair():
     # TODO: przygotować metodę w MongoConnector, która odpowiednio przygotuje dane
     for key, value in data_json.items():
         if type(value) is float:
-            insert_data[key] = MongoConnector.change_type(value, float)
+            insert_data[key] = Converter.change_type(value, float, 'mongo')
         else:
             insert_data[key] = value
     insert_data['timestamp'] = datetime.datetime.now()
@@ -87,7 +88,6 @@ def add_currency_pair():
 def handle_assets():
     if request.method == 'GET':
         res_msg = mongo_connector.get(ASSETS_COLLECTION_NAME, {})
-        # TODO: konwersja Decimal128 na float -> klasa Converter
         if res_msg.status:
             return res_msg.message, 200
         return res_msg, 400
@@ -97,7 +97,7 @@ def handle_assets():
         insert_data = dict()
         for key, value in data_json.items():
             if type(value) is float:
-                insert_data[key] = MongoConnector.change_type(value, float)
+                insert_data[key] = Converter.change_type(value, float, 'mongo')
             else:
                 insert_data[key] = value
         insert_data['timestamp'] = datetime.datetime.now()
