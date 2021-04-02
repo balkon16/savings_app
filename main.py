@@ -27,7 +27,6 @@ mongo_connector = MongoConnector(mongo_conf['host'],
 app = Flask(__name__)
 
 
-# TODO: endpoint dla nowych aktywów -> PUT
 # TODO: endpoint do pobrania kursów historycznych -> GET
 # TODO: endpoint do pobrania aktywów: ticker, tag(s), currency -> GET
 
