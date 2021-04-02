@@ -92,6 +92,7 @@ def handle_assets():
             return res_msg.message, 200
         return res_msg, 400
     elif request.method == 'PUT':
+        # TODO: usunąć zduplikowany kod
         data_json = request.json
         insert_data = dict()
         for key, value in data_json.items():
