@@ -5,7 +5,6 @@ from bson.json_util import dumps, loads
 from pymongo import MongoClient
 
 
-# TODO: currency_pairs_schema.json -> walidacja (`source` nie może być pusty) + odpowiedni opis w description
 class Message:
 
     def __init__(self, status, message):
